@@ -5,7 +5,11 @@ I've built a python package [yfinance-extended](https://pypi.org/project/yfinanc
 
 With `yfinance-extended`, I hoped to handle those issues by downloading intra-day multi-ticker price/volume to a long-format dataframe, and make it possible to store those data in `parquet` format locally.<br/>
 
-However, it might be more sensible to get the data into a pipeline, from `yfinance -> Apache Kafka -> Apache Beam -> Apache Spark`. So in this repo, I'll try to refactor and use Java SDKs of Kafka and Beam.
+However, it might be more sensible to get the data into a pipeline, as we can let Apache Beam and Spark handle the data transformation and storage.<br/>
+
+Here are two directions it could go:<br/>
+- `yfinance-extended` -> parquet files -> Apache Spark (which is already here, but the transformation step is performed by `pandas` in Python); or,
+- `yfinance` -> Apache Kafka -> Apache Beam -> Apache Spark.
 
 ## Structure
 This repo is structured as follows at the moment:
