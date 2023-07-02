@@ -14,12 +14,12 @@ class YahooBatchLoader:
         return 'yahoo_finance_data.YahooBatchLoader object'
 
     def get_historical_prices(self, tickers: yf.Ticker | yf.Tickers | str | list[str],
-                   start: Any = None,
-                   end: Any = None,
-                   period: str = "5d",
-                   interval: str = "1m",
-                   prepost: bool = True,
-                   keepna: bool = False) -> pd.DataFrame:
+                              start: Any = None,
+                              end: Any = None,
+                              period: str = "5d",
+                              interval: str = "1m",
+                              prepost: bool = True,
+                              keepna: bool = False) -> pd.DataFrame:
         """
          Method to load previous trading session's data
          (Should run after 8pm Eastern Time / end of post-market session)
@@ -102,14 +102,14 @@ class YahooBatchLoader:
                     period: str = "5d"):
 
         # Get period into start/end dates
-        if start == None and end == None:
+        if start is None and end is None:
             end = datetime.date.today()
             if period in ["1d", "5d"]:
                 start = end - datetime.timedelta(days=int(period[:-1]))
             elif period in ["1mo", "3mo", "6mo"]:
-                start = end - datetime.timedelta(weeks=int(period[:-1])*4)
+                start = end - datetime.timedelta(weeks=int(period[:-1]) * 4)
             elif period in ["1y", "2y", "5y", "10y"]:
-                start = end - datetime.timedelta(weeks=int(period[:-1])*52)
+                start = end - datetime.timedelta(weeks=int(period[:-1]) * 52)
 
         file_df = files.read_parquet(root_dir=root_dir, tickers=tickers, start=start, end=end, engine="pyarrow")
         current_df = self.get_historical_prices(tickers=tickers, start=start, end=end, interval="1m")
