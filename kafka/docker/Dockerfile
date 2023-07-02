@@ -1,20 +1,23 @@
 # syntax=docker/dockerfile:1
 
-# Fetch rockylinux-9.2
+# Stage 0: Fetch rockylinux-9.2
 FROM rockylinux:9.2 AS baseos
-RUN dnf -y upgrade
+RUN dnf -y upgrade && dnf -y install java-17-openjdk
 RUN mkdir /home/root
 WORKDIR /home/root
 
-# Download kafka
+# Stage 1: Download kafka
 FROM baseos AS install-kafka
+
 # Download the tar file
-RUN curl -LOs https://dlcdn.apache.org/kafka/3.5.0/kafka_2.13-3.5.0.tgz
-RUN tar -xzf kafka_2.13-3.5.0.tgz
-RUN rm -f kafka_2.13-3.5.0.tgz
+RUN curl -sLO https://dlcdn.apache.org/kafka/3.5.0/kafka_2.13-3.5.0.tgz && \
+    tar -xzf kafka_2.13-3.5.0.tgz && \
+    rm -f kafka_2.13-3.5.0.tgz && \
+    mv kafka_2.13-3.5.0 kafka
 # Enter the directory
-cd kafka_2.13-3.5.0
+WORKDIR /home/root/kafka
 
-
-
-ENTRYPOINT ["/bin/bash"]
+# Run kafka
+COPY run_kafka.sh /home/root/kafka/run_kafka.sh
+RUN chmod +x run_kafka.sh
+ENTRYPOINT ["/bin/bash", "/home/root/kafka/run_kafka.sh"]
