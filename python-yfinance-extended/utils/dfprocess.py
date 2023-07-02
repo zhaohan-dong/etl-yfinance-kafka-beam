@@ -3,7 +3,7 @@ def rename_index_datetime(df: pd.DataFrame) -> pd.DataFrame:
     """
     The returned index is named "Datetime" when period is shorter than 1d, but "Date" when longer
     We'll format it to "Datetime"
-    :return:
+    :return: Pandas dataframe
     """
     if df.index.name == "Date":
         df.index.rename("Datetime", inplace=True)
@@ -16,7 +16,7 @@ def pivot_price_df_by_ticker(df: pd.DataFrame, tickers: list[str]) -> pd.DataFra
     One level is the tickers, and the other is Open, Close, etc.
     We'll flatten it here
     :param df: Price dataframe downloaded from yfinance, with two levels of columns
-    :return: Dataframe without index
+    :return: Pandas dataframe without index
     """
     # Pivot only if the number of column levels is greater than one (passing one ticker gives only one level)
     if df.columns.nlevels > 1:

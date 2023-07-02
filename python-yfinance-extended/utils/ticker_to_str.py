@@ -1,6 +1,5 @@
 import yfinance as yf
 
-
 def parse_ticker_to_str_list(tickers: yf.Ticker | yf.Tickers | str | list[str]) -> list[str] | None:
     if isinstance(tickers, yf.Ticker):
         return [tickers.ticker]
