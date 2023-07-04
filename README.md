@@ -6,14 +6,23 @@ I've built a python package [yfinance-extended](https://pypi.org/project/yfinanc
 With `yfinance-extended`, I hoped to handle those issues by downloading intra-day multi-ticker price/volume to a long-format dataframe, and make it possible to store those data in `parquet` format locally.<br/>
 
 However, it might be more sensible to get the data into a pipeline, as we can let Apache Beam and Spark handle the data transformation and storage.<br/>
-
+## Planning
 Here are two directions it could go:<br/>
-- `yfinance-extended` -> parquet files -> Apache Spark (which is already here, but the transformation step is performed by `pandas` in Python); or,
-- `yfinance` -> Apache Kafka -> Apache Beam -> Apache Spark.
+~~1. `yfinance-extended` -> parquet files -> Apache Spark (Need to refactor [yfinance-extended](https://github.com/zhaohan-dong/yfinance-extended) to use Spark DataFrame as soon as the data is downloaded using yfinance); or,~~
+2. `yfinance` -> Apache Kafka -> Apache Beam -> Apache Spark.
 
-With the first approach, we can run a daily cron job to get the data into parquet files, and then run a Spark job to transform the data and store it in HDFS.<br/>
+~~With the first approach, we can run a daily cron job to get the data into parquet files, and then run a Spark job to transform the data and store it in HDFS.<br/>~~
 
 With the second approach, we can get the data into Kafka, and then use Beam to transform the data and send it to Spark for storage. The second approach is more scalable, and we can also use Beam to send the data to other databases like BigQuery or Cassandra.<br/>
+
+Because Spark gets data in `Row`, the first approach would need to download and transform the pandas dataframe with all the tickers available into Spark DataFrame. It'll be bottle-necked by the serial downloading of data.<br/>
+
+|                | `yfinance-extended` pandas | `yfinance-extended` with Spark | `yfinance` to Kafka and Beam |
+|----------------|:--------------------------:|:------------------------------:|:----------------------------:|
+| Implementation |          Easiest           |             Harder             |           Hardest            |
+| Faster with    |      Low data volume       |       Higher data volume       |       High data volume       |
+
+**Apparently the `yfinance-extended` with Spark is the worst choice among all three**
 
 ## Structure
 This repo is structured as follows at the moment:
