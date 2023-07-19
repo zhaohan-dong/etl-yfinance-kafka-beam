@@ -20,4 +20,7 @@ WORKDIR /home/root/kafka
 # Run kafka
 COPY run_kafka.sh /home/root/kafka/run_kafka.sh
 RUN chmod +x run_kafka.sh
+
+EXPOSE 9092
+
 ENTRYPOINT ["/bin/bash", "/home/root/kafka/run_kafka.sh"]

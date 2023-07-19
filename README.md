@@ -29,6 +29,7 @@ This repo is structured as follows at the moment:
 ```
 |-- README.md
 |-- python-yfiance-extended/ (What we're refactoring)
- -- kafka/ (Kafka Producer to get yfinance data into streaming messages)
+ -- yfinance_to_kafka/ (Kafka Producer to get yfinance data into streaming messages)
 ```
-We'll add `beam` and `spark` folders later.
+Steps:
+Producing
