@@ -3,7 +3,7 @@ import time
 from kafka import KafkaProducer, KafkaConsumer
 import json
 
-SERVER_IP = "127.0.0.1:50518"
+SERVER_IP = "zhaohandong.com:31042"
 
 class TestKafkaMessaging(unittest.TestCase):
 
