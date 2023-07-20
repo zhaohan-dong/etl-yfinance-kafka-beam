@@ -30,3 +30,8 @@ __pycache__/
 # IDE
 .idea/
 .vscode/
+
+# Docker volumes and files
+zookeeper-vol/
+kafka-vol/
+tickers.txt
