@@ -29,7 +29,9 @@ This repo is structured as follows at the moment:
 ```
 |-- README.md
 |-- python-yfiance-extended/ (What we're refactoring)
- -- yfinance_to_kafka/ (Kafka Producer to get yfinance data into streaming messages)
+|-- src/yfinance_to_kafka/ (Kafka Producer to get yfinance data into streaming messages)
+ -- test/
 ```
-Steps:
-Producing
+
+## Progress
+Apache Kafka is running in minikube. Need to get a docker image to produce message in the cluster.
