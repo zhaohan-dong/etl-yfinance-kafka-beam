@@ -10,8 +10,10 @@ services:
     ports:
       - "22181:2181"
     volumes:
-      - ../zookeeper-vol/zk-data:/var/lib/zookeeper/data
-      - ../zookeeper-vol/zk-txn-logs:/var/lib/zookeeper/log
+      - ./zookeeper-vol/zk-data:/var/lib/zookeeper/data
+      - ./zookeeper-vol/zk-txn-logs:/var/lib/zookeeper/log
+    networks:
+      - kafka_network
   
   kafka:
     deploy:
@@ -29,12 +31,10 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
-      - ../kafka-vol/kafka-data:/var/lib/kafka/data
-
-  yfinance-producer:
-    build: .
-    volumes:
-      - ../tickers.txt:/app/tickers.txt
-    environment:
-      - TZ=UTC
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - ./kafka-vol/kafka-data:/var/lib/kafka/data
+    networks:
+      - kafka_network
+networks:
+  kafka_network:
+    name: kafka_network
+    driver: bridge

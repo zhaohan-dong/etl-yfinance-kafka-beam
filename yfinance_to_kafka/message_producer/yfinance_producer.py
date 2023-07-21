@@ -12,7 +12,7 @@ class YFinanceProducer:
                  bootstrap_servers: str | list[str] = "localhost:9092",
                  acks: int | str = "all",
                  value_serializer=(lambda v: json.dumps(v).encode('utf-8')),
-                 **kwargs):
+                 **kwargs) -> None:
         """
         :param bootstrap_servers: Server of the Kafka cluster to connect to. Default: localhost:9092. :param acks:
         The number of acknowledgments the producer requires the leader to have received before considering a request
@@ -28,7 +28,7 @@ class YFinanceProducer:
         if bootstrap_servers== "localhost:9092":
             logging.warning("Using default bootstrap server. This is not recommended for production.")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return 'yfinance_to_kafka.YFinanceProducer object'
 
     # TODO: start/end parameters are broken for the moment
@@ -39,7 +39,7 @@ class YFinanceProducer:
                          period: str = "5d",
                          interval: str = "1m",
                          prepost: bool = True,
-                         keepna: bool = False):
+                         keepna: bool = False) -> None:
         """
          Method to load previous trading session's data
          (Should run after 8pm Eastern Time / end of post-market session)
@@ -70,7 +70,7 @@ class YFinanceProducer:
                                        period: str = "5d",
                                        interval: str = "1m",
                                        prepost: bool = True,
-                                       keepna: bool = False):
+                                       keepna: bool = False) -> None:
         """
         Helper method to download ticker data and send it to Kafka.
         """
