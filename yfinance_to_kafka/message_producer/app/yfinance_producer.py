@@ -9,7 +9,7 @@ import yfinance as yf
 class YFinanceProducer:
 
     def __init__(self,
-                 bootstrap_servers: str | list[str] = "localhost:9092",
+                 bootstrap_servers: str | list[str],
                  acks: int | str = "all",
                  value_serializer=(lambda v: json.dumps(v).encode('utf-8')),
                  **kwargs) -> None:
@@ -25,8 +25,6 @@ class YFinanceProducer:
                                         value_serializer=value_serializer,
                                         **kwargs)
         logging.info(f"Connected to Kafka at {bootstrap_servers}")
-        if bootstrap_servers== "localhost:9092":
-            logging.warning("Using default bootstrap server. This is not recommended for production.")
 
     def __repr__(self) -> str:
         return 'yfinance_to_kafka.YFinanceProducer object'
