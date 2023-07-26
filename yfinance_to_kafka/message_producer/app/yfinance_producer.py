@@ -33,11 +33,12 @@ class YFinanceProducer:
 
     # TODO: start/end parameters are broken for the moment
     def send_batch_price(self,
+                         kafka_topic: str,
                          tickers: str | list[str],
                          start: Any = None,
                          end: Any = None,
-                         period: str = "5d",
-                         interval: str = "1m",
+                         period: str | None = "5d",
+                         interval: str | None = "1m",
                          prepost: bool = True,
                          keepna: bool = False) -> None:
         """
@@ -56,7 +57,7 @@ class YFinanceProducer:
         threads = []
         for ticker in tickers:
             thread = threading.Thread(target=self._download_and_send_ticker_data,
-                                      args=(ticker, start, end, period, interval, prepost, keepna))
+                                      args=(kafka_topic, ticker, start, end, period, interval, prepost, keepna))
             threads.append(thread)
             thread.start()
 
@@ -64,11 +65,12 @@ class YFinanceProducer:
             thread.join()
 
     def _download_and_send_ticker_data(self,
+                                       kafka_topic: str,
                                        ticker: str,
                                        start: Any,
                                        end: Any,
-                                       period: str,
-                                       interval: str,
+                                       period: str | None,
+                                       interval: str | None,
                                        prepost: bool,
                                        keepna: bool) -> None:
         """
@@ -87,11 +89,11 @@ class YFinanceProducer:
             # Serialize the dataframe to JSON and send to Kafka
             for index, row in df.iterrows():
                 value = row.to_json(orient='records')
-                self.__producer.send(topic="yfinance", key=ticker, value=value)
+                self.__producer.send(topic=kafka_topic, key=ticker.encode(), value=value)
 
             # Flush the Kafka producer to ensure all messages in batch are sent
             self.__producer.flush()
-            logging.info(f"Sent {ticker} to Kafka")
+            logging.info(f"Sent {ticker} to Kafka topic {kafka_topic}")
         except Exception as e:
             logging.error(f"Error downloading Ticker {ticker} from Yahoo Finance: {e}. Continuing...")
 
@@ -99,8 +101,8 @@ class YFinanceProducer:
                       ticker: str,
                       start: Any,
                       end: Any,
-                      period: str,
-                      interval: str,
+                      period: str | None,
+                      interval: str | None,
                       prepost: bool,
                       keepna: bool) -> pd.DataFrame:
         df = yf.download(tickers=ticker,
@@ -114,6 +116,6 @@ class YFinanceProducer:
                     group_by="ticker",
                     keepna=keepna).reset_index()
         # Add ticker column
-        df.insert(1, "Ticker", ticker)
+        df.insert(1, "Ticker", [ticker]*len(df))
         logging.info(f"Downloaded {ticker} from Yahoo Finance")
         return df
