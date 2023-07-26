@@ -13,7 +13,7 @@ class TestYFinanceProducer(unittest.TestCase):
                               "Failed to initialize YFinanceProducer class object")
 
     def test_yfinance_download(self):
-        data = yf.download(ticker="AAPL", start='2022-01-03', end='2022-01-04', interval="1d", period=None,
+        data = yf.download(tickers="AAPL", start='2022-01-03', end='2022-01-04', interval="1d", period=None,
                            prepost=True, keepna=False)
         self.assertEqual(data.shape, (1, 6), "Yahoo Finance download shape error")
         self.assertEqual(data.iloc[0]["Open"], 177.830002, "Yahoo Finance download data error")
