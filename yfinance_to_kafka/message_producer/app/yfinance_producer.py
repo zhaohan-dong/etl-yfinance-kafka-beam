@@ -1,4 +1,6 @@
 import json
+
+import pandas as pd
 from kafka import KafkaProducer
 import logging
 import threading
@@ -63,30 +65,24 @@ class YFinanceProducer:
 
     def _download_and_send_ticker_data(self,
                                        ticker: str,
-                                       start: Any = None,
-                                       end: Any = None,
-                                       period: str = "5d",
-                                       interval: str = "1m",
-                                       prepost: bool = True,
-                                       keepna: bool = False) -> None:
+                                       start: Any,
+                                       end: Any,
+                                       period: str,
+                                       interval: str,
+                                       prepost: bool,
+                                       keepna: bool) -> None:
         """
         Helper method to download ticker data and send it to Kafka.
         """
         try:
             # Download data from Yahoo Finance
-            df = yf.download(tickers=ticker,
+            df = self._download_data(ticker=ticker,
                              start=start,
                              end=end,
                              period=period,
                              interval=interval,
                              prepost=prepost,
-                             actions=True,
-                             progress=False,
-                             group_by="ticker",
-                             keepna=keepna).reset_index()
-            # Add ticker column
-            df.insert(1, "Ticker", ticker)
-            logging.info(f"Downloaded {ticker} from Yahoo Finance")
+                             keepna=keepna)
 
             # Serialize the dataframe to JSON and send to Kafka
             for index, row in df.iterrows():
@@ -98,3 +94,26 @@ class YFinanceProducer:
             logging.info(f"Sent {ticker} to Kafka")
         except Exception as e:
             logging.error(f"Error downloading Ticker {ticker} from Yahoo Finance: {e}. Continuing...")
+
+    def _download_data(self,
+                      ticker: str,
+                      start: Any,
+                      end: Any,
+                      period: str,
+                      interval: str,
+                      prepost: bool,
+                      keepna: bool) -> pd.DataFrame:
+        df = yf.download(tickers=ticker,
+                    start=start,
+                    end=end,
+                    period=period,
+                    interval=interval,
+                    prepost=prepost,
+                    actions=True,
+                    progress=False,
+                    group_by="ticker",
+                    keepna=keepna).reset_index()
+        # Add ticker column
+        df.insert(1, "Ticker", ticker)
+        logging.info(f"Downloaded {ticker} from Yahoo Finance")
+        return df
