@@ -6,7 +6,7 @@ from kafka import KafkaConsumer
 
 BOOTSTRAP_SERVERS = "localhost:9092"
 
-
+# TODO: Fix NoBrokersAvailable error when building docker image
 class TestYFinanceProducer(unittest.TestCase):
     def test_initialize_class(self):
         self.assertIsInstance(YFinanceProducer(bootstrap_servers=BOOTSTRAP_SERVERS), YFinanceProducer,
