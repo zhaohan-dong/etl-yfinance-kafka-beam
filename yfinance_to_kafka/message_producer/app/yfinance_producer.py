@@ -6,6 +6,7 @@ import logging
 import threading
 from typing import Any
 import yfinance as yf
+import time
 
 
 class YFinanceProducer:
@@ -76,46 +77,52 @@ class YFinanceProducer:
         """
         Helper method to download ticker data and send it to Kafka.
         """
-        try:
-            # Download data from Yahoo Finance
-            df = self._download_data(ticker=ticker,
-                             start=start,
-                             end=end,
-                             period=period,
-                             interval=interval,
-                             prepost=prepost,
-                             keepna=keepna)
+        # Retry up to 3 times
+        for _ in range(3):
+            try:
+                # Download data from Yahoo Finance
+                df = self._download_data(ticker=ticker,
+                                         start=start,
+                                         end=end,
+                                         period=period,
+                                         interval=interval,
+                                         prepost=prepost,
+                                         keepna=keepna)
 
-            # Serialize the dataframe to JSON and send to Kafka
-            for index, row in df.iterrows():
-                value = row.to_json(orient='records')
-                self.__producer.send(topic=kafka_topic, key=ticker.encode(), value=value)
+                # Serialize the dataframe to JSON and send to Kafka
+                for index, row in df.iterrows():
+                    value = row.to_json(orient='records')
+                    self.__producer.send(topic=kafka_topic, key=ticker.encode(), value=value)
 
-            # Flush the Kafka producer to ensure all messages in batch are sent
-            self.__producer.flush()
-            logging.info(f"Sent {ticker} to Kafka topic {kafka_topic}")
-        except Exception as e:
-            logging.error(f"Error downloading Ticker {ticker} from Yahoo Finance: {e}. Continuing...")
+                # Flush the Kafka producer to ensure all messages in batch are sent
+                self.__producer.flush()
+                logging.info(f"Sent {ticker} to Kafka topic {kafka_topic}")
+                break
+            except Exception as e:
+                logging.error(f"Error downloading Ticker {ticker} from Yahoo Finance: {e}. Retry in 30 seconds.")
+                time.sleep(30)
+        if _ == 2:
+            logging.error(f"Failed to download Ticker {ticker} from Yahoo Finance after {_ + 1} retries.")
 
     def _download_data(self,
-                      ticker: str,
-                      start: Any,
-                      end: Any,
-                      period: str | None,
-                      interval: str | None,
-                      prepost: bool,
-                      keepna: bool) -> pd.DataFrame:
+                       ticker: str,
+                       start: Any,
+                       end: Any,
+                       period: str | None,
+                       interval: str | None,
+                       prepost: bool,
+                       keepna: bool) -> pd.DataFrame:
         df = yf.download(tickers=ticker,
-                    start=start,
-                    end=end,
-                    period=period,
-                    interval=interval,
-                    prepost=prepost,
-                    actions=True,
-                    progress=False,
-                    group_by="ticker",
-                    keepna=keepna).reset_index()
+                         start=start,
+                         end=end,
+                         period=period,
+                         interval=interval,
+                         prepost=prepost,
+                         actions=True,
+                         progress=False,
+                         group_by="ticker",
+                         keepna=keepna).reset_index()
         # Add ticker column
-        df.insert(1, "Ticker", [ticker]*len(df))
+        df.insert(1, "Ticker", [ticker] * len(df))
         logging.info(f"Downloaded {ticker} from Yahoo Finance")
         return df

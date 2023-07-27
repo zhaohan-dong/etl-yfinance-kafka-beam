@@ -8,9 +8,10 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./tickers.txt:/app/tickers.txt
+      - ./yf_producer_log.txt:/app/yf_producer_log.txt
     environment:
       - TZ=UTC
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
       - kafka_network
 networks:
