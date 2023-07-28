@@ -1,5 +1,8 @@
 # Ingest YFinance data into Apache Kafka Topic
 
+## Diagram
+![yfinance-kafka](https://github.com/zhaohan-dong/etl-yfinance-kafka-beam/assets/65422392/938b50cf-6e00-411a-905e-8a968a2faf85)
+
 ## Installing Kafka on docker-compose
 Go to `./kafka_docker` directory and run the following command.
 ```bash
