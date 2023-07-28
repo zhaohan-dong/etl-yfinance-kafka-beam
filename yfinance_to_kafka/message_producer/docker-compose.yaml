@@ -12,6 +12,7 @@ services:
     environment:
       - TZ=UTC
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=yfinance
     networks:
       - kafka_network
 networks:
