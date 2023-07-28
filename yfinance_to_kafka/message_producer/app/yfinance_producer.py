@@ -17,11 +17,10 @@ class YFinanceProducer:
                  value_serializer=(lambda v: json.dumps(v).encode('utf-8')),
                  **kwargs) -> None:
         """
-        :param bootstrap_servers: Server of the Kafka cluster to connect to. Default: localhost:9092. :param acks:
-        The number of acknowledgments the producer requires the leader to have received before considering a request
-        complete. Default: all. :param value_serializer: Used to convert user-supplied message values to bytes.
-        Defaults to a built-in function that converts json to bytes using utf-8. :param kwargs: Other arguments to
-        pass to [KafkaProducer](https://kafka-python.readthedocs.io/en/master/apidoc/KafkaProducer.html)
+        :param bootstrap_servers: Server of the Kafka cluster to connect to. Default: localhost:9092.
+        :param acks: The number of acknowledgments the producer requires the leader to have received before considering a request complete. Default: all.
+        :param value_serializer: Used to convert user-supplied message values to bytes. Defaults to a built-in function that converts json to bytes using utf-8.
+        :param kwargs: Other arguments to pass to [KafkaProducer](https://kafka-python.readthedocs.io/en/master/apidoc/KafkaProducer.html)
         """
         self.__producer = KafkaProducer(bootstrap_servers=bootstrap_servers,
                                         acks=acks,
@@ -46,6 +45,7 @@ class YFinanceProducer:
          Method to load previous trading session's data
          (Should run after 8pm Eastern Time / end of post-market session)
 
+        :param kafka_topic: Kafka topic to send data to
         :param tickers: Tickers to get data for
         :param start: Start date for historical data query
         :param end: End date for historical data query
@@ -78,6 +78,7 @@ class YFinanceProducer:
         Helper method to download ticker data and send it to Kafka.
         """
         # Retry up to 3 times
+        _ = 0
         for _ in range(3):
             try:
                 # Download data from Yahoo Finance
@@ -104,8 +105,8 @@ class YFinanceProducer:
         if _ == 2:
             logging.error(f"Failed to download Ticker {ticker} from Yahoo Finance after {_ + 1} retries.")
 
-    def _download_data(self,
-                       ticker: str,
+    @staticmethod
+    def _download_data(ticker: str,
                        start: Any,
                        end: Any,
                        period: str | None,
