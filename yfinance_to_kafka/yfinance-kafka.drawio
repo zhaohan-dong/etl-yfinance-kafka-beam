@@ -1,0 +1,75 @@
+<mxfile host="app.diagrams.net" modified="2023-07-28T13:49:11.502Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5.2 Safari/605.1.15" etag="K4JxjBprgP3Jq6O9cu7e" version="21.6.5" type="device">
+  <diagram id="R2lEEEUBdFMjLlhIrx00" name="Page-1">
+    <mxGraphModel dx="1026" dy="636" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-11" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="60" width="580" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-12" value="Docker Network or VPC" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="370" y="80" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-13" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="120" width="470" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-14" value="Stock Data&amp;nbsp;Producer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="240" y="175" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-15" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="130" width="330" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-17" value="Concurrently send Kafka messages.&lt;br&gt;&lt;br&gt;Using key=ticker to ensure message order within one ticker" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="607.5" y="280" width="100" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-18" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="210" y="280" width="210" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="tF5hQ1JasCD_HOSvKHBA-18">
+          <mxGeometry width="210" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-3" value="Kafka Broker" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="tF5hQ1JasCD_HOSvKHBA-18">
+          <mxGeometry x="57.5" y="10" width="95" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-4" value="Zookeeper Container" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="tF5hQ1JasCD_HOSvKHBA-18">
+          <mxGeometry x="10" y="70" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="tF5hQ1JasCD_HOSvKHBA-18" source="tF5hQ1JasCD_HOSvKHBA-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="155" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-5" value="Kafka&lt;br&gt;Container" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="tF5hQ1JasCD_HOSvKHBA-18">
+          <mxGeometry x="110" y="70" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-22" value="Python &lt;br&gt;YFinanceProducer class" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="377.5" y="140" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tF5hQ1JasCD_HOSvKHBA-23" target="tF5hQ1JasCD_HOSvKHBA-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-23" value="Download stock data using yfinance package" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="180" width="85" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tF5hQ1JasCD_HOSvKHBA-24" target="tF5hQ1JasCD_HOSvKHBA-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-24" value="Transform Pandas DF to Rows and add ticker column" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="180" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tF5hQ1JasCD_HOSvKHBA-25" target="tF5hQ1JasCD_HOSvKHBA-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-25" value="Kafka Producer send message" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="180" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-32" value="Internal port: kafka:9092" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="348" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tF5hQ1JasCD_HOSvKHBA-34" value="External port:&lt;br&gt;&amp;lt;external-ip&amp;gt;:29092" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="370" y="450" width="120" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
